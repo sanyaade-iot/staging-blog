@@ -1,7 +1,7 @@
 
 ##Inpsiration and background
 
-With my headphones in and coffee ready, I was performing my ritual skimming of every news article ever when I was shocked to read a summary of a headline which implied that people today are being overwhelmed by information.  Choking down my coffee, I was inspired, compelled to help others like myself slow down and really 'connect' with eachother.  Seeking the technological romanticism of the 1890s; I Googled hard.  Needless to say, I struck gold.  I quickly closed my laptop and left our morning meeting in a hurry, wasting no time, and now I'm here to share Spark's exciting new development.
+With my headphones in and coffee ready, I was performing my ritual skimming of every news article ever when I was shocked to read a summary of a headline which implied that people today are being overwhelmed by information.  Choking down my coffee, I was inspired, compelled to help others like myself slow down and really 'connect' with eachother.  Seeking the technological romanticism of the 1890s; I Googled hard.  Needless to say, I struck gold.  Wasting no time I closed my laptop and walked out of that meeting, and now I'm here to share Spark's exciting new development.
 
 
 ##Background Research
@@ -26,11 +26,6 @@ Although this incredible project is still in early beta, we wanted to share some
 You tell us!  If there is sufficient demand, we might consider introducing a kickstarter to produce limited edition beautiful wooden and brass Wifi Telegraphs.
 
 
-
-
-
-
-
 --Video Monologue
 
 "From early studies of electricity, electrical phenomena were known to travel with great speed, and many experimenters worked on the application of electricity to communications at a distance.
@@ -39,17 +34,14 @@ All the known effects of electricity - such as sparks, electrostatic attraction,
 Eight years since Western Union has discontinued all telegram services, Spark is reinventing the electrical telegraph online through the Spark Cloud.  Finally a telegraph with a RESTful API, push notifications, and end-to-end encryption.
 
 
+  
 
 
-
-
-
-
-
+---------------------
 
 Notes and scratch:
 
-
+---------------------
 
 
 
