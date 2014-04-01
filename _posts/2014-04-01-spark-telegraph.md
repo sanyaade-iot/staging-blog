@@ -1,7 +1,9 @@
 
 ##Inpsiration and background
 
-With my headphones in and coffee ready, I was performing my ritual skimming of every news article ever when I was shocked to read a summary of a headline which implied that people today are being overwhelmed by information.  Choking down my coffee, I was inspired, compelled to help others like myself slow down and really 'connect' with eachother.  Seeking the technological romanticism of the 1890s; I Googled hard.  Needless to say, I struck gold.  Wasting no time I closed my laptop and walked out of that meeting, and now I'm here to share Spark's exciting new development.
+Headphones in and coffee at hand, my ritual skimming of news was going strong when I was shocked by a summary of a headline of an article which implied that people today are overwhelmed with information.  I stopped texting, paused the video I was watching, and in silence I took a long slow sip from my coffee.  In the background I felt someone was speaking and I couldn't quite understand them, but now I do.  The silence seemed to last forever as I stared into space, inspiration struck, and I knew I needed to help others like myself.  We needed a new device to help people really connect with eachother.  Something free from distractions, and slow to help shape thoughts.
+
+This new device would capture the technological romanticism of the 1890s I thought; I Googled hard.  Needless to say, I struck gold.  I walked straight out of that meeting, and now I'm here to share Spark's exciting new development.
 
 
 ##Background Research
