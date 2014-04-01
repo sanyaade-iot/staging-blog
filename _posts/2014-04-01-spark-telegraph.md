@@ -19,11 +19,9 @@ Although this incredible project is still in early beta, we wanted to share some
 
 And, recognizing that not all of our users have mastered the demands of morse code, we've also included an autocorrect feature that will help smooth over common mistakes. 
 
-(Maybe here you could somehow cut to an "embarassing" mistake like an extra dot instead of a dash?)
-
 
 ##Kickstarter?
 
-You tell us!  If there is sufficient demand, we might consider introducing a new Kickstarter project for the Spark Telegraph with a small run of beautiful limited edition wooden and brass Wi-Fi Telegraphs.
+You tell us!  If there is sufficient demand, we might consider introducing a new Kickstarter project for the Spark Telegraph with a limited run of beautiful wooden and brass Wi-Fi Telegraphs.
 
 
