@@ -15,8 +15,7 @@ It is with these goals in mind that I am proud to to share Spark's exciting new 
 
 ##Development update
 
-Although this incredible project is still in early beta, we wanted to share some details.  This could very well be the world's first open source hardware and software Wi-Fi telegraph with end-to-end encryption and internet connectivity.  We believe in creating a connected ecosystem of devices, but also of people, so unlike the original Telegraph, we will not be charging by the word. In fact, we won't be charging any monthly fees.  You can't get that from text messages!   
-Although this incredible project is still in early beta, we wanted to share some details.  We haven't checked, but this could very well be the world's first open Wi-Fi telegraph with end-to-end encryption and internet connectivity.  We believe in creating a connected ecosystem of devices, but also of people, so unlike the original Telegraph, we will not be charging by the word. In fact, if you own a Spark Core, we won't be charging any monthly fees for this service.  You can't get that from text messages!   
+Although this incredible project is still in early beta, we wanted to share some details.  We haven't checked, but this could very well be the world's first open Wi-Fi telegraph with end-to-end encryption and internet connectivity.  We believe in creating a connected ecosystem of devices, but also of people, so unlike the original Telegraph, we will not be charging by the word. In fact, , if you own a Spark Core, we won't be charging any monthly fees.  Take that text messages!
 
 And, recognizing that not all of our users have mastered the demands of morse code, we've also included an autocorrect feature that will help smooth over common mistakes. 
 
