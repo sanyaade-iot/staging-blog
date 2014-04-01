@@ -24,7 +24,6 @@ And, recognizing that not all of our users have mastered the demands of morse co
 
 ##Kickstarter?
 
-You tell us!  If there is sufficient demand, we might consider introducing a kickstarter to produce limited edition beautiful wooden and brass Wifi Telegraphs.
-
+You tell us!  If there is sufficient demand, we might consider introducing a new Kickstarter project for the Spark Telegraph with a small run of beautiful limited edition wooden and brass Wi-Fi Telegraphs.
 
 
