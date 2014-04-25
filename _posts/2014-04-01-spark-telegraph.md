@@ -24,7 +24,7 @@ It is with these goals in mind that I am proud to to share Spark's exciting new 
 
 # Introducing the Open Internet Telegraph
 
-<iframe width="560" height="315" src="//www.youtube.com/embed/ucq9jqyy-1s" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="//www.youtube.com/embed/ucq9jqyy-1s" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
 
 
 ## Development update
