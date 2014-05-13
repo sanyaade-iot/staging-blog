@@ -4,7 +4,7 @@ layout: post
 title: Spark.subscribe + hackster.io
 cover_image: blog-cover.jpg
 
-excerpt: "Core-to-Core pub-sub push messaging released in core-firmware v0.2.2. New Spark Projects site powered by hackster.io!"
+excerpt: "Core-to-Core pub-sub push messaging released in core-firmware v0.2.2, and there's a new Spark Projects site powered by hackster.io!"
 
 author:
   name: Zachary Crockett
@@ -24,31 +24,29 @@ If you've worked with `Spark.function()`, this will look very familiar.
 Just write your own event handling function, and register it in `setup()`.
 Here's an example where the event handler is called `ledOn()`:
 
-```
-int onTime = -10000;
+    int onTime = -10000;
 
-void ledOn(const char *event, const char *data) {
-  onTime = millis();
-}
-
-void setup() {
-  pinMode(D7, OUTPUT);
-  Spark.subscribe("light-up", ledOn, MY_DEVICES);
-}
-
-void loop() {
-  bool isOn = digitalRead(D7);
-  if (millis() - onTime < 1000) {
-    if (!isOn) {
-      digitalWrite(D7, HIGH);
+    void ledOn(const char *event, const char *data) {
+      onTime = millis();
     }
-  } else {
-    if (isOn) {
-      digitalWrite(D7, LOW);
+
+    void setup() {
+      pinMode(D7, OUTPUT);
+      Spark.subscribe("light-up", ledOn, MY_DEVICES);
     }
-  }
-}
-```
+
+    void loop() {
+      bool isOn = digitalRead(D7);
+      if (millis() - onTime < 500) {
+        if (!isOn) {
+          digitalWrite(D7, HIGH);
+        }
+      } else {
+        if (isOn) {
+          digitalWrite(D7, LOW);
+        }
+      }
+    }
 
 In `setup()` I subscribe to the "light-up" event.
 By adding `MY_DEVICES` to the subscription call,
@@ -56,37 +54,49 @@ I make sure other people's Cores can't turn on my LED.
 Now whenever any of my Cores publishes "light-up",
 the Cloud will send that event to my Core, which will call `ledOn()`
 
-The `loop()` just checks whether we updated the variable `onTime` within the last second.
+The `loop()` just checks whether we updated the variable `onTime` within the last half second.
 If so, and if the LED is off, we turn it on.
-The else clause just turns the LED off one second later.
+The else clause just turns the LED off half a second later.
 
 Now I install the following firmware on a different Core to publish the "light-up" event.
 
-```
-int last;
+    int last;
+    bool ready;
 
-void setup() {
-  pinMode(D7, OUTPUT);
-  last = millis();
-}
+    void setup() {
+      pinMode(D3, INPUT);
+      last = millis();
+      ready = true;
+    }
 
-void loop() {
-  if (millis() - last > 10000) {
-    digitalWrite(D7, HIGH);
-    delay(1000);
-    digitalWrite(D7, LOW);
-    Spark.publish("light-up");
-    last = millis();
-  }
-}
-```
+    void loop() {
+      if (millis() - last > 200) {
+        if (digitalRead(D3)) {
+          // button pressed
+          if (ready) {
+            ready = false;
+            Spark.publish("light-up");
+            last = millis();
+          }
+        } else {
+          // button released
+          ready = true;
+        }
+      }
+    }
 
-Every ten seconds the LED turns on for one second.
-The instant it turns off, the Core publishes a "light-up" event.
+I wire a button between 3V3 and D3 and add a pull-down resistor between D3 and GND.
+That way, D3 stays low most of the time, but it goes high while the button is pressed.
+
+The code simply listens for D3 to go high and publishes "light-up" when it does.
+The `last` variable is just used to debounce the button,
+making sure we don't rapidly publish lots of events on the rising edge.
+The `ready` variable ensures only one event per button press.
+
 Here's a video of it working.
 The Spark Core on the right publishes; the one on the left subscribes.
 
-<iframe src="//player.vimeo.com/video/95062541" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen="allowfullscreen">&nbsp;</iframe>
+<iframe src="//player.vimeo.com/video/95062541" width="500" height="281" frameborder="0" allowfullscreen="allowfullscreen">&nbsp;</iframe>
 
 Check out the [full `Spark.subscribe()` documentation](http://docs.spark.io/#/firmware/data-and-control-spark-subscribe).
 
@@ -94,3 +104,4 @@ Check out the [full `Spark.subscribe()` documentation](http://docs.spark.io/#/fi
 ## Spark Projects powered by hackster.io
 
 We have partnered with the team over at hackster.io to create the official place to post your awesome Spark Core projects.
+Some great ideas are already there!
