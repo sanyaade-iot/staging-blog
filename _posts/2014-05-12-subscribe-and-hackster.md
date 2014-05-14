@@ -111,7 +111,7 @@ Check out [spark.hackster.io](http://spark.hackster.io/) now—it's awesome!
 
 Some great ideas are already there, like the
 [BDub's Facebook Likes Push-up Man](http://www.hackster.io/bdub/facebook-likes-alert),
-[ninedof's LCD tutorial](http://www.hackster.io/projects/e/ninedof/configurable-spark-core-connected-lcd)
+[ninedof's LCD tutorial](http://www.hackster.io/projects/e/ninedof/configurable-spark-core-connected-lcd),
 [Rudolf Wirz's Twitter Torch](http://www.hackster.io/projects/e/rudolf-wirz/twitter-torch),
 and
 [Dragonsshout's Spark Door access control system](http://www.hackster.io/projects/e/dragonsshout/spark-door-access-control-system)!
