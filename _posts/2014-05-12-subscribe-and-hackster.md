@@ -1,7 +1,7 @@
 ---
 layout: post
 
-title: Spark.subscribe + hackster.io
+title: Spark.subscribe + spark.hackster.io
 cover_image: blog-cover.jpg
 
 excerpt: "Core-to-Core pub-sub push messaging released in core-firmware v0.2.2, and there's a new Spark Projects site powered by hackster.io!"
@@ -89,9 +89,10 @@ I wire a button between 3V3 and D3 and add a pull-down resistor between D3 and G
 That way, D3 stays low most of the time, but it goes high while the button is pressed.
 
 The code simply listens for D3 to go high and publishes "light-up" when it does.
-The `last` variable is just used to debounce the button,
+The `last` variable is used to debounce the button,
 making sure we don't rapidly publish lots of events on the rising edge.
-The `ready` variable ensures only one event per button press.
+The `ready` variable ensures only one event per button press—you
+have to release the button before `ready` becomes true again.
 
 Here's a video of it working.
 The Spark Core on the right publishes; the one on the left subscribes.
@@ -103,5 +104,16 @@ Check out the [full `Spark.subscribe()` documentation](http://docs.spark.io/#/fi
 
 ## Spark Projects powered by hackster.io
 
-We have partnered with the team over at hackster.io to create the official place to post your awesome Spark Core projects.
-Some great ideas are already there!
+We have partnered with the team over at hackster.io to create
+[the official place to post all your Spark Core projects](http://spark.hackster.io/).
+The hackster team has been great to work with, and they have created a custom view specifically for us.
+Check out [spark.hackster.io](http://spark.hackster.io/) now—it's awesome!
+
+Some great ideas are already there, like the
+[BDub's Facebook Likes Push-up Man](http://www.hackster.io/bdub/facebook-likes-alert),
+[ninedof's LCD tutorial](http://www.hackster.io/projects/e/ninedof/configurable-spark-core-connected-lcd)
+[Rudolf Wirz's Twitter Torch](http://www.hackster.io/projects/e/rudolf-wirz/twitter-torch),
+and
+[Dragonsshout's Spark Door access control system](http://www.hackster.io/projects/e/dragonsshout/spark-door-access-control-system)!
+
+Add yours and give some "respect"—hackster's version of like/star/+1—to your favorite projects now!
