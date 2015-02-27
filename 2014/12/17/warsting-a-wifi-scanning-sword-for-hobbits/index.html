@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WarSting: A Wi-Fi scanning sword for Hobbits. &mdash; Spark Blog</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://spark.github.io/staging-blog/assets/main.css">
+    <link rel="shortcut icon" href="http://spark.github.io/staging-blog/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="http://spark.github.io/staging-blog/images/logo.png"/>
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Spark Blog" />
+    <meta name="title" content="WarSting: A Wi-Fi scanning sword for Hobbits. ">
+    <link rel="canonical" href="http://spark.github.io/staging-blog/2014/12/17/warsting-a-wifi-scanning-sword-for-hobbits/">
+    
+    
+    <meta property="og:title" content="WarSting: A Wi-Fi scanning sword for Hobbits. "/>
+    <meta property="og:url" content="http://spark.github.io/staging-blog/2014/12/17/warsting-a-wifi-scanning-sword-for-hobbits/"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/blog-cover.jpg"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/logo.png"/>
+    
+    
+    <meta property="og:description" content="We hacked a toy sword to make it turn blue near unsecured Wi-Fi networks."/>
+    <meta name="description" content="We hacked a toy sword to make it turn blue near unsecured Wi-Fi networks."/>
+    
+    <meta property="og:site_name" content="Spark Blog">
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <a class="brand" href="https://www.spark.io/">
+                <img src="http://spark.github.io/staging-blog/images/logo.png" alt="Inc">
+            </a>
+            <a href="http://spark.github.io/staging-blog" class="home">Blog</a>
+            <a href="https://store.spark.io/">Product</a>
+            
+        </nav>
+        <nav class="tagline">
+            <span>Wi-Fi for Everything</span>
+            <a href="https://store.spark.io/" class="btn btn-outline">Buy Now</a>
+        </nav>
+    </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="http://spark.github.io/staging-blog/images/blog-cover.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Zach Supalla" target="_blank">Zach Supalla</a> &mdash;
+                <time pubdate datetime="2014-17-December" title="December 17, 2014">December 17, 2014</time>
+            </div>
+            <h1 class="title">WarSting: A Wi-Fi scanning sword for Hobbits.</h1>
+            
+        </header>
+
+        <section>
+            <p>Today, <em>The Hobbit: The Battle of Five Armies</em> hits the theaters. Bilbo, our favorite hairy-footed protagonist, will face formidable foes armed with his mythical sword, Sting.</p>
+
+<div class="full"><img src="http://spark.github.io/staging-blog/images/bilbo-sting.jpg"></div>
+
+<p>Sting&#39;s particular magic is that it glows blue whenever orcs or goblins are nearby. This is useful for hobbits, but in today&#39;s day and age, a real Sting would be unfortunately boring.</p>
+
+<p>But what if Sting could detect unsecured Wi-Fi networks?</p>
+
+<div class="full"><img src="http://spark.github.io/staging-blog/images/sting-meme.jpg"></div>
+
+<p>To celebrate the launch of the new <em>Hobbit</em> flick, we made a version of Sting that turns blue near unsecured Wi-Fi networks. And when you slash the sword, Sting will jump on the network, and publish a message: &quot;{YOUR WI-FI NETWORK} has been vanquished!&quot;</p>
+
+<div class="full"><iframe width="750" height="422" src="//www.youtube.com/embed/rmjkUv5OtLM" frameborder="0" allowfullscreen="allowfullscreen">&nbsp;</iframe></div>
+
+<p>This hack is inspired by one of our favorite recent projects, <a href="http://www.wired.com/2014/08/how-to-use-your-cat-to-hack-your-neighbors-wi-fi/">WarKitteh</a>, in which a Siamese cat named Coco was enlisted to wardrive his owner&#39;s neighborhood. Hobbits are known to travel further than the typical housecat, and therefore make great wardrivers.</p>
+
+<h2>Step 1: The ingredients</h2>
+
+<p>To make your own WarSting, you&#39;ll need two things: a <a href="http://www.amazon.com/The-Bridge-Direct-Hobbit-Deluxe/dp/B008914XZA/">toy Sting</a>, and a <a href="https://store.spark.io">Spark Core</a>.</p>
+
+<div class="full"><img src="http://spark.github.io/staging-blog/images/knolling-sting-topdown.jpg"></div>
+
+<p>A toy company named <em>The Bridge Direct, Inc.</em> sells (next to Power Rangers and Justin Bieber action figures) <a href="http://www.amazon.com/gp/product/B008914XZA/">a $29.99 plastic replica Sting sword</a>. <em>WITH LIGHTS AND SOUND!</em> This is a great hack because:</p>
+
+<ul>
+<li>It has <em>lights and sound</em>. When you press a button, the sword lights up blue, and when you slash the sword, it makes fun slashing sounds. These functions are hackable.</li>
+<li>It&#39;s pretty cheap.</li>
+<li>It&#39;s a sword.</li>
+<li>It&#39;s held together with screws, which gives us access to the internals.</li>
+<li>There&#39;s a bit of extra space in the hilt that we can cram stuff into.</li>
+</ul>
+
+<p>The other thing you&#39;ll need is a <a href="https://store.spark.io">Spark Core</a>, a Wi-Fi development kit - sort of like a Wi-Fi connected Arduino. It&#39;s a reprogrammable chip that has a Wi-Fi module on board and can interact with sensors and actuators, like the ones in the sword.</p>
+
+<div class="full"><img src="http://spark.github.io/staging-blog/images/core-and-hilt.jpg"></div>
+
+<p>This is what we do, so we have a whole bunch of them sitting around. If you want a Core, you can get them on <a href="https://store.spark.io">our website</a> for $39 each.</p>
+
+<h2>Step 2: Disassemble the sword</h2>
+
+<p>All of the electronics in the sword are contained in the hilt, which can be accessed by unscrewing a couple of screws. Here&#39;s what you&#39;ll find inside:</p>
+
+<div class="full"><img src="http://spark.github.io/staging-blog/images/closeup-hilt.jpg"></div>
+
+<p>There are basically four components that matter here:</p>
+
+<ul>
+<li>Two AA batteries, which power the electronics. Every AA battery provides 1.5V, so when two are placed in serial, you&#39;ve got 3V. If you use <a href="http://www.amazon.com/Energizer-L91BP-8-Ultimate-Lithium-Battery/dp/B0000DC4EL/">Energizer Ultimate Lithium batteries</a>, which run at 1.7V out of the box, you&#39;ve got 3.4V, which is enough to get a bright blue light from the LEDs (3V will work but the light will be quite dim).</li>
+<li>A couple of blue LEDs that are pointed up into the sword to make it glow</li>
+<li>A button on the front that turns on the sword</li>
+<li>A &quot;vibration switch&quot; that detects when the sword is swung. This is basically a spring inside a metal tube; when you swing the sword, the spring bends and hits the tube around it, which completes a circuit</li>
+<li>A tiny sound system that makes one of a few tinny <em>SLASH</em> and <em>CLANG</em> sounds when you swing the sword</li>
+</ul>
+
+<h2>Step 3: Splice in the Core</h2>
+
+<p>We want the Core to be in control of whether the LEDs are on and whether the little sound circuit is making a sound. We also want it to detect the signal from the vibration switch. Here&#39;s a diagram of our circuit:</p>
+
+<div class="full"><img src="http://spark.github.io/staging-blog/images/warsting-schematic.png"></div>
+
+<p>This is an overly simplistic diagram, and isn&#39;t a totally accurate picture of what&#39;s going on here. We&#39;re not hooking up to a single LED; we&#39;re hooking into a pre-existing subsystem which actually includes multiple LEDs. And we&#39;re also not hooking up to a speaker; we&#39;re hooking up to a whole system for producing sounds where simply sending voltage to a black box of a circuit will create a <em>SLASH</em> sound.</p>
+
+<p>This hack is pretty straightforward; it&#39;s simply a matter of cutting the wires in the sword and soldering the wires to the pins of the Spark Core.</p>
+
+<h2>Step 4: Reprogram the Core with network-vanquishing firmware</h2>
+
+<p>We&#39;ve written a firmware application designed for the WarSting that scans for unsecured networks, makes sounds, blinks the LEDs, and publishes messages from the unsecured network. All in, it&#39;s about three hundred lines of code. Here&#39;s a sample in a gist:</p>
+
+<script src="https://gist.github.com/zsup/bfa7726adf375f4a744f.js"></script>
+
+<p>In addition to this firmware application, you&#39;ll have to include the <code>wifiscan.h</code> library, which scans for networks. The complete firmware can be found on our Github repo for WarSting:</p>
+
+<p><a href="http://www.github.com/spark/warsting">www.github.com/spark/warsting</a></p>
+
+<h2>Step 5: Reassemble the sword</h2>
+
+<p>Put the sword back together. This is the opposite of step 2.</p>
+
+<h2>Step 6: Vanquish Wi-Fi networks</h2>
+
+<p>Power up your new WarSting, and when the sword turns blue, start slashing! If you have a few unsecured networks nearby, WarSting will vanquish them one at a time, until they&#39;ve all been vanquished, after which the sword will no longer glow blue.</p>
+
+<h2>In conclusion</h2>
+
+<p>So there you have it! If you want to build your own WarSting or create your own wardriving product, fork our Github repo:</p>
+
+<p><a href="http://www.github.com/spark/warsting">www.github.com/spark/warsting</a></p>
+
+<p>To get a Spark Core (or our recently announced Photon), visit our store here:</p>
+
+<p><a class="btn" href=https://store.spark.io/?utm_source=SparkBlog&utm_medium=blog&utm_term=PreOrder&utm_content=Button&utm_campaign=WarSting>Buy a Core or Photon now</a></p>
+
+<p>Enjoy your hobbit journey, and if you&#39;re interested in more fun projects, check out the <a href="http://spark.hackster.io">Spark project site on Hackster</a> for all kinds of inspiration!</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="WarSting: A Wi-Fi scanning sword for Hobbits." data-related="spark_io">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="http://spark.github.io/staging-blog/images/zach.jpg">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/zsupalla" title="" target="_blank">Zach Supalla</a></strong><br>
+                <span class="muted">CEO</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2015
+
+        <nav>
+            <a href="https://www.spark.io/">Spark IO</a> &middot;
+            <a href="http://spark.github.io/staging-blog">Blog</a> &middot;
+            <a href="https://store.spark.io/">Product</a> &middot; 
+            
+        </nav>
+
+        <nav class="social">
+            
+            <a href="https://twitter.com/spark_io" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+            
+            
+            <a href="http://facebook.com/sparkdevices" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+            
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss black"></i>
+            </a>
+        </nav>
+        <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/appear.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37038200-4', 'http://spark.github.io/staging-blog');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>

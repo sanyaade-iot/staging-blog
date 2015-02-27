@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blink an LED with Javascript &mdash; Spark Blog</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://spark.github.io/staging-blog/assets/main.css">
+    <link rel="shortcut icon" href="http://spark.github.io/staging-blog/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="http://spark.github.io/staging-blog/images/logo.png"/>
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Spark Blog" />
+    <meta name="title" content="Blink an LED with Javascript ">
+    <link rel="canonical" href="http://spark.github.io/staging-blog/2014/09/29/blink-an-led-with-javascript/">
+    
+    
+    <meta property="og:title" content="Blink an LED with Javascript "/>
+    <meta property="og:url" content="http://spark.github.io/staging-blog/2014/09/29/blink-an-led-with-javascript/"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/blog-cover.jpg"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/logo.png"/>
+    
+    
+    <meta property="og:description" content="Use SparkJS to easily connect to your Spark Core."/>
+    <meta name="description" content="Use SparkJS to easily connect to your Spark Core."/>
+    
+    <meta property="og:site_name" content="Spark Blog">
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <a class="brand" href="https://www.spark.io/">
+                <img src="http://spark.github.io/staging-blog/images/logo.png" alt="Inc">
+            </a>
+            <a href="http://spark.github.io/staging-blog" class="home">Blog</a>
+            <a href="https://store.spark.io/">Product</a>
+            
+        </nav>
+        <nav class="tagline">
+            <span>Wi-Fi for Everything</span>
+            <a href="https://store.spark.io/" class="btn btn-outline">Buy Now</a>
+        </nav>
+    </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="http://spark.github.io/staging-blog/images/blog-cover.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Christine Sunu" target="_blank">Christine Sunu</a> &mdash;
+                <time pubdate datetime="2014-29-September" title="September 29, 2014">September 29, 2014</time>
+            </div>
+            <h1 class="title">Blink an LED with Javascript</h1>
+            
+        </header>
+
+        <section>
+            <p>Hello, friends! Christine here, newcomer to the Spark team. Despite being a javascript <a href="http://en.wikipedia.org/wiki/Dilettante">dilettante</a>, I was pretty excited to start playing with SparkJS, our new javascript library. It&#39;s easy to use, and if you&#39;re even a little familiar with javascript the code writes itself.</p>
+
+<p>As an intro to SparkJS, I decided to go with the “Hello World” equivalent of the Spark universe: blinking an LED.</p>
+
+<p>I wired my LED to the D0 pin like so:</p>
+
+<div class="full"><img src="http://spark.github.io/staging-blog/images/javascript-led-fritzing.png"></div>
+
+<p>The next thing for me to do (as always) was to connect my Spark Core to my Wi-Fi network. I connected with the Spark CLI. The basics of this are illustrated in the gif below (c/o Zach).</p>
+
+<p><img src="http://spark.github.io/staging-blog/images/setup.gif"></p>
+
+<p>Connection success! (If you have trouble with this step, it’s good to go <a href="http://docs.spark.io/connect/">here</a> for help.)</p>
+
+<p>Next, the Javascript. SparkJS can run <a href="http://docs.spark.io/javascript/#installation-client-side">in the browser</a> or on a server using Node.js; I&#39;ve chosen the latter. I can install SparkJS with a simple:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">npm install spark
+</code></pre></div>
+<p>Next, I wrote a script to blink the LED in javascript, based off of the <code>callFunction()</code> example in the SparkJS repository. In order to program using SparkJS, make sure you have the <a href="http://docs.spark.io/javascript/">spark module installed through node.</a></p>
+
+<p><em>NOTE</em>: This application assumes that you&#39;re running the built-in Tinker firmware that is pre-programmed on the Spark Core. If you&#39;re not, you can reinstall it with the Spark CLI by typing <code>spark flash {core_id} tinker</code>.</p>
+
+<p>Having installed all the things I needed, I wrote a the LED-blinking script below:</p>
+
+<script src="https://gist.github.com/cmsunu28/c20fa5bf6f524f128d64.js"></script>
+
+<p>This may be a little bit overkill in terms of asynchrony handling, but I just wanted to demonstrate that SparkJS lets you use callbacks, promises, events, or any combination thereof.</p>
+
+<p>I also employed <code>callFunction()</code> in two different ways: <code>spark.callFunction(core_id, command, input, callback)</code> before the device info is retrieved and <code>core.callFunction(command, input, callback)</code> after. As you can see, either works -- it just depends on whether you want to use it before or after you retrieve the devices.</p>
+
+<p>This is fun and everything, but to really take advantage of SparkJS, I&#39;d love to do something on the web with an HTTP request. I never check the weather, but I wanted to be reminded to take my umbrella in the case of rain. I decided to have my Core check it for me.</p>
+
+<p>Using the Open Weather Map API and the node request module, I wrote a quick script to check for rain, which I can call once a day using cron. (Weather codes are <a href="http://openweathermap.org/weather-conditions">here</a> in case you want to write your own script to identify clouds or clear skies!)</p>
+
+<p>Video of result, and code below!</p>
+
+<iframe class="full" width="750" height="422" src="//www.youtube.com/embed/6nBO6RJOfME" frameborder="0" allowfullscreen>&nbsp;</iframe>
+
+<script src="https://gist.github.com/cmsunu28/2eb3d875c1418255970c.js"></script>
+
+<p>Documentation on SparkJS is available here:</p>
+
+<p><a href="http://docs.spark.io/javascript">http://docs.spark.io/javascript/</a></p>
+
+<p>Let us know what you think and share all your lovely projects on the <a href="https://community.spark.io">Spark Community</a>. Have fun!</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Blink an LED with Javascript" data-related="spark_io">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="http://spark.github.io/staging-blog/images/christine.jpg">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/christinesunu" title="" target="_blank">Christine Sunu</a></strong><br>
+                <span class="muted">Office Manager</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2015
+
+        <nav>
+            <a href="https://www.spark.io/">Spark IO</a> &middot;
+            <a href="http://spark.github.io/staging-blog">Blog</a> &middot;
+            <a href="https://store.spark.io/">Product</a> &middot; 
+            
+        </nav>
+
+        <nav class="social">
+            
+            <a href="https://twitter.com/spark_io" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+            
+            
+            <a href="http://facebook.com/sparkdevices" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+            
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss black"></i>
+            </a>
+        </nav>
+        <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/appear.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37038200-4', 'http://spark.github.io/staging-blog');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>

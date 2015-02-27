@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wow, much reliable, so better &mdash; Spark Blog</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://spark.github.io/staging-blog/assets/main.css">
+    <link rel="shortcut icon" href="http://spark.github.io/staging-blog/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="http://spark.github.io/staging-blog/images/logo.png"/>
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Spark Blog" />
+    <meta name="title" content="Wow, much reliable, so better ">
+    <link rel="canonical" href="http://spark.github.io/staging-blog/2014/01/24/sprint-four/">
+    
+    
+    <meta property="og:title" content="Wow, much reliable, so better "/>
+    <meta property="og:url" content="http://spark.github.io/staging-blog/2014/01/24/sprint-four/"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/blog-cover.jpg"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/logo.png"/>
+    
+    
+    <meta property="og:description" content="This week was about improving the robustness and reliability of the Spark Cloud and our firmware."/>
+    <meta name="description" content="This week was about improving the robustness and reliability of the Spark Cloud and our firmware."/>
+    
+    <meta property="og:site_name" content="Spark Blog">
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <a class="brand" href="https://www.spark.io/">
+                <img src="http://spark.github.io/staging-blog/images/logo.png" alt="Inc">
+            </a>
+            <a href="http://spark.github.io/staging-blog" class="home">Blog</a>
+            <a href="https://store.spark.io/">Product</a>
+            
+        </nav>
+        <nav class="tagline">
+            <span>Wi-Fi for Everything</span>
+            <a href="https://store.spark.io/" class="btn btn-outline">Buy Now</a>
+        </nav>
+    </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="http://spark.github.io/staging-blog/images/blog-cover.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Zach Supalla" target="_blank">Zach Supalla</a> &mdash;
+                <time pubdate datetime="2014-24-January" title="January 24, 2014">January 24, 2014</time>
+            </div>
+            <h1 class="title">Wow, much reliable, so better</h1>
+            
+        </header>
+
+        <section>
+            <p>We just completed our fourth sprint on the Spark platform, where our main focus was increasing the reliability and performance of the Cloud/Core combo. This involved improvements to a variety of areas, including the web IDE, the firmware, and our cross-compile service that builds binaries to be flashed onto the Core.</p>
+
+<h3>Example apps in the IDE</h3>
+
+<p>The most visible enhancement we put in place during this sprint was adding example Core apps to the IDE that can you can fork and edit. Check it out:</p>
+
+<div class="full zoomable"><img src="http://spark.github.io/staging-blog/images/example-apps.png"></div>
+
+<p>When you open an example app, you can fork it into your own apps in order to edit it and flash it onto a Core.</p>
+
+<div class="full zoomable"><img src="http://spark.github.io/staging-blog/images/fork.png"></div>
+
+<p>These apps are populated from a Github repository at <a href="http://www.github.com/spark/examples">github.com/spark/examples</a>.</p>
+
+<div class="full zoomable"><img src="http://spark.github.io/staging-blog/images/github-examples.png"></div>
+
+<p>We are working on providing a mechanism to enable community contributions of example apps. In addition, this feature provides the first step toward libraries, a frequently requested feature; now that we have a linkage between the Spark IDE and Github, it opens up a lot of opportunities for collaborative coding through Spark.</p>
+
+<h3>Proper authentication for multiple clients</h3>
+
+<p>Previously the Spark API put in place basic authentication where each user has one API token, which can be used to securely access and control that user&#39;s Spark Core.</p>
+
+<div class="full zoomable"><img src="http://spark.github.io/staging-blog/images/access-token.png"></div>
+
+<p>This feature, however, was limited to only one access token. This means that if multiple clients were to use the access token (for instance, the Spark iOS app and the user&#39;s own webapp), either one could request a new access token, revoking the previous token, and causing a failure in the other app.</p>
+
+<p>This week, we implemented a feature allowing multiple clients. This means that two or more apps can request their own access token without revoking each others&#39; access. Access tokens can be managed through the Spark API.</p>
+
+<h5>Generate a new access token</h5>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">POST /oauth/token
+
+# Using curl in your terminal
+curl https://api.spark.io/oauth/token -u spark:spark \
+     -d grant_type=password -d username=joe@example.com \
+     -d password=SuperSecret
+
+# A typical JSON response will look like this
+{
+    &quot;access_token&quot;: &quot;254406f79c1999af65a7df4388971354f85cfee9&quot;,
+    &quot;token_type&quot;: &quot;bearer&quot;,
+    &quot;expires_in&quot;: 7776000
+}
+</code></pre></div>
+<p>When creating a new access token, you need to specify several additional pieces of info.</p>
+
+<p>You must give a valid client ID and password in HTTP Basic Auth.
+Any client ID will work right now, so we suggest <code>spark:spark</code>.
+In the POST body, you need three parameters:</p>
+
+<ul>
+<li>grant_type=password</li>
+<li>username=YOUR_EMAIL@ADDRE.SS</li>
+<li>password=YOUR_PASSWORD</li>
+</ul>
+
+<p>For now, Spark Build will list the single most recently created token.</p>
+
+<h5>List all your tokens</h5>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">GET /v1/access_tokens
+
+# Using curl in your terminal
+curl https://api.spark.io/v1/access_tokens \
+    -u joe@example.com:SuperSecret
+
+# Example JSON response
+[
+    {
+        &quot;token&quot;: &quot;b5b901e8760164e134199bc2c3dd1d228acf2d98&quot;,
+        &quot;expires_at&quot;: &quot;2014-04-27T02:20:36.177Z&quot;,
+        &quot;client&quot;: &quot;spark&quot;
+    },
+    {
+        &quot;token&quot;: &quot;ba54b6bb71a43b7612bdc7c972914604a078892b&quot;,
+        &quot;expires_at&quot;: &quot;2014-04-27T06:31:08.991Z&quot;,
+        &quot;client&quot;: &quot;spark&quot;
+    }
+]
+</code></pre></div>
+<p>You can list all your access tokens by passing your email address and password
+in an HTTP Basic Auth header to <code>/v1/access_tokens</code>.</p>
+
+<h5>Delete an access token</h5>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">DELETE /v1/access_tokens/:token
+
+# Using curl in your terminal
+curl https://api.spark.io/v1/access_tokens/b5b901e8760164e134199bc2c3dd1d228acf2d98 \
+     -u joe@example.com:SuperSecret -X DELETE
+
+# Example JSON response
+{
+    &quot;ok&quot;: true
+}
+</code></pre></div>
+<p>If you have a bunch of unused tokens and want to clean up, you can delete tokens.</p>
+
+<p>Just as for listing them, send your username and password in an HTTP Basic Auth header.</p>
+
+<p>Complete documentation for authentication on the Spark API can be found on <a href="http://docs.spark.io/#/api/spark-cloud-api-authentication">our docs site</a>.</p>
+
+<h3>More reliable firmware</h3>
+
+<p>Until this week, some users have been reporting an issue that has been referred to as the &quot;Cyan Flash of Death&quot;. Due to an internal failure in the CC3000, on some networks after anytime from a few minutes to a few hours, the Core would go mute, and would be unresponsive until manually reset.</p>
+
+<p>Because the underlying issue here is within the CC3000 where we do not have complete visibility, we are working with Texas Instruments to understand the root cause of the failure. In the meantime, we have issued a workaround; when the Core disconnects, it will now reset the Wi-Fi module so that it will recover. So while some users will still encounter occasional disconnects, they should now be temporary, and the Core will re-connect automatically within a minute or two.</p>
+
+<p>We will be continuing to debug this issue during our next Sprint.</p>
+
+<h3>Spark.disconnect() and Spark.connect()</h3>
+
+<p>In the Spark community, many users were requesting a mechanism to take control over the connection to the Spark Cloud. We have now implemented two functions, <code>Spark.disconnect()</code> and <code>Spark.connect()</code>, which will let users temporarily deactivate and re-activate the connection to the Spark Cloud.</p>
+
+<h3>Better code parsing</h3>
+
+<p>Like the Arduino IDE, the Spark IDE has a pre-processor that adds a little magic to your code. The pre-processor automatically includes the Spark libraries and generates function prototypes that declare functions at the beginning of your code so that they can be used anywhere.</p>
+
+<p>The pre-processor uses a bunch of regular expressions (regex), and previously had a few bugs, such as parsing functions within multi-line comments.</p>
+
+<p>This week, the pre-processor went through an overhaul, so more of your code will compile successfully.</p>
+
+<h3>Miscellaneous tweaks and improvements</h3>
+
+<p>In addition to the larger features and bugfixes above, we made a number of minor improvements, such as:</p>
+
+<ul>
+<li>The Spark Build IDE should now show a &#39;log in&#39; screen rather than a &#39;sign up&#39; screen if you&#39;ve already been to the site and created an account/logged in before.</li>
+<li>We purchased a wildcard certificate so that we can register more domains. Now, <a href="http://community.sparkdevices.com">community.sparkdevices.com</a> is <a href="http://community.spark.io">community.spark.io</a>!</li>
+<li>We improved our staging environment for the Cloud, Core, and IDE. This won&#39;t have any direct effect on Spark users, since it is for internal development, but it does mean that we can better test changes internally before pushing them out.</li>
+<li>We merged a number of pull requests from the community, including <a href="https://community.spark.io/t/important-7-bit-i2c-addresses-are-now-working-01-24-2014/2376?u=zach">a fix to I2C addressing</a>. Some of our best features and bug fixes are generated by the community; we happily accept pull requests to our firmware and other open source software!</li>
+</ul>
+
+<h3>Next up: Multiple files and further robustness improvements</h3>
+
+<p>As mentioned above, one of our most frequent feature requests is adding a capability for creating and sharing libraries for the Spark Core. While our example apps feature above was the first step, the next major step forward will be creating the capability for apps that include multiple files. This feature will be one of our top priorities during Sprint 5. Once this is complete, we will be able to link in community-generated libraries, most likely during Sprint 6.</p>
+
+<p>In addition, while we have made a number of changes improving the robustness of the Spark Core, there&#39;s still work to do. During Sprint 5, we hope to squash the &quot;Cyan Flash of Death&quot; for good, and make other changes to ensure that the Spark Core stays connected and running your code consistently.</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Wow, much reliable, so better" data-related="spark_io">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="http://spark.github.io/staging-blog/images/zach.jpg">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/zsupalla" title="" target="_blank">Zach Supalla</a></strong><br>
+                <span class="muted">Founder, CEO</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2015
+
+        <nav>
+            <a href="https://www.spark.io/">Spark IO</a> &middot;
+            <a href="http://spark.github.io/staging-blog">Blog</a> &middot;
+            <a href="https://store.spark.io/">Product</a> &middot; 
+            
+        </nav>
+
+        <nav class="social">
+            
+            <a href="https://twitter.com/spark_io" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+            
+            
+            <a href="http://facebook.com/sparkdevices" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+            
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss black"></i>
+            </a>
+        </nav>
+        <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/appear.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37038200-4', 'http://spark.github.io/staging-blog');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>

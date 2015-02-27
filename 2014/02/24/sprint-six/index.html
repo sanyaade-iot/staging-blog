@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We're on Maker Shed! Also, Will teaches you to Spark. Also, command line goodness. Also, more. &mdash; Spark Blog</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://spark.github.io/staging-blog/assets/main.css">
+    <link rel="shortcut icon" href="http://spark.github.io/staging-blog/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="http://spark.github.io/staging-blog/images/logo.png"/>
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Spark Blog" />
+    <meta name="title" content="We're on Maker Shed! Also, Will teaches you to Spark. Also, command line goodness. Also, more. ">
+    <link rel="canonical" href="http://spark.github.io/staging-blog/2014/02/24/sprint-six/">
+    
+    
+    <meta property="og:title" content="We're on Maker Shed! Also, Will teaches you to Spark. Also, command line goodness. Also, more. "/>
+    <meta property="og:url" content="http://spark.github.io/staging-blog/2014/02/24/sprint-six/"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/blog-cover.jpg"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/logo.png"/>
+    
+    
+    <meta property="og:description" content="Been trying to get your hands on a Spark Core? Get yours now at Maker Shed, and party from the command line like it's 1987."/>
+    <meta name="description" content="Been trying to get your hands on a Spark Core? Get yours now at Maker Shed, and party from the command line like it's 1987."/>
+    
+    <meta property="og:site_name" content="Spark Blog">
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <a class="brand" href="https://www.spark.io/">
+                <img src="http://spark.github.io/staging-blog/images/logo.png" alt="Inc">
+            </a>
+            <a href="http://spark.github.io/staging-blog" class="home">Blog</a>
+            <a href="https://store.spark.io/">Product</a>
+            
+        </nav>
+        <nav class="tagline">
+            <span>Wi-Fi for Everything</span>
+            <a href="https://store.spark.io/" class="btn btn-outline">Buy Now</a>
+        </nav>
+    </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="http://spark.github.io/staging-blog/images/blog-cover.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Zach Supalla" target="_blank">Zach Supalla</a> &mdash;
+                <time pubdate datetime="2014-24-February" title="February 24, 2014">February 24, 2014</time>
+            </div>
+            <h1 class="title">We're on Maker Shed! Also, Will teaches you to Spark. Also, command line goodness. Also, more.</h1>
+            
+        </header>
+
+        <section>
+            <p>We&#39;re all pretty big nerds at Spark HQ, so it was pretty cool to see this in my inbox on Thursday.</p>
+
+<h3>Spark Core on Maker Shed!</h3>
+
+<div class="full"><img src="http://spark.github.io/staging-blog/images/maker-shed.jpg"></div>
+
+<p>Maker Media is kind of a big deal in our little corner of the world, and they&#39;ve been supporters of ours for a while. Behind the scenes we&#39;ve been working with them for quite some time to get the Spark Core on their shelves.</p>
+
+<p>We&#39;re pleased to announce that the <a href="http://www.makershed.com/Spark_Core_Chip_Antenna_p/mkspk01.htm">Spark Core</a> and <a href="http://www.makershed.com/Maker_Kit_with_Chip_Antenna_Core_p/mkspk05.htm">Spark Maker Kit</a> are both available for purchase on Maker Shed!</p>
+
+<p>We hear they&#39;re selling fast, and they will likely be sold out in the very near future --- so get yours now before that happens!</p>
+
+<h3>Getting started with Will</h3>
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/Bxda0hXtJz8" frameborder="0" allowfullscreen="allowfullscreen">&nbsp;</iframe>
+
+<p>Will, the tallest member of the Spark team, put together an amazing &#39;Getting Started&#39; video that walks through the set-up process of the Spark Core. This is the first of many video tutorials, as we&#39;ve found that there&#39;s no better way to learn than to follow along!</p>
+
+<h3>Spark Command Line Interface (CLI)</h3>
+
+<p>Speaking of big nerds, we love the command line. If you spend a lot of time writing code, you often find that graphics just get in the way of the pureness that is text.</p>
+
+<p>This week, we&#39;re officially launching the Spark Command Line Interface, or CLI. The CLI is still in active development, so expect significant changes over the next few weeks. In the meantime, the CLI is now the fastest and easiest way to get started with your Spark Core.</p>
+
+<p>Before getting started with the CLI, you&#39;ll need to have <a href="http://nodejs.org/">Node.js</a> and <a href="https://www.npmjs.org/">npm</a> installed. Go ahead, I&#39;ll wait here.</p>
+
+<p>Ready? Try this:</p>
+
+<p><code>npm install -g spark-cli</code></p>
+
+<p>Now you&#39;ve got the Spark CLI installed. Next:</p>
+
+<p><code>spark</code></p>
+
+<p>will tell you all the commands available. Here are some of my favorites:</p>
+
+<p><code>spark cloud login</code> to log in to your Spark account so that you can interact with your Cores.</p>
+
+<p><code>spark cloud list</code> returns a list of the Cores you own, and displays information about their status. statuses. statii?</p>
+
+<p><code>spark cloud flash 0123456789ABCDEFGHI core-firmware.bin</code> will flash your Core with a binary file of your choosing. Or you can flash <code>my_application.ino</code> to send a single Arduino file, or <code>/projects/big_app/src</code> to send an entire directory.</p>
+
+<p><code>spark variable get all temperature</code> returns the temperature variable from all available Cores.</p>
+
+<p><code>spark serial wifi</code> will help you connect your Core to your Wi-Fi network.</p>
+
+<p>There&#39;s lots more where that came from; for a full list of available commands, simply type <code>spark</code> in your terminal, or visit the <a href="https://github.com/spark/spark-cli">Github repository</a>.</p>
+
+<p>And speaking of Github...</p>
+
+<h3>Our open source has a new home</h3>
+
+<div class="full"><img src="http://spark.github.io/staging-blog/images/spark-source.png"></div>
+
+<p>As the volume of our open source content grows, it&#39;s become a little unwieldy. Now if you&#39;d like to browse our open source repositories, visit <a href="http://spark.github.io">spark.github.io</a> to see an organized view of the open source tech stack for connected devices that we&#39;ve been publishing over the last few months.</p>
+
+<p>Using the Github tools we&#39;ve made available, you can star a repository to follow it for changes, create an issue to request a feature or share a bug, or track our workflow on <a href="http://www.waffle.io">waffle.io</a>.</p>
+
+<div class="full"><img src="http://spark.github.io/staging-blog/images/waffle.png"></div>
+
+<p>Starting with the <a href="https://www.github.com/spark/core-firmware">core-firmware</a> repository, we&#39;re sharing our backlog with the community to get your feedback about our priorities and to get your help and input wherever you&#39;re willing to provide it. Workflows for other repositories will go live over the next couple of weeks.</p>
+
+<h3>Other stuff</h3>
+
+<p>There were a few other things - improvements to the documentation, web IDE improvements to no longer send .cpp files through the Arduino pre-processor, API improvements, and bug fixes. But who can keep track?</p>
+
+<p>Enjoy the improvements, and if you have any feedback, please share it in <a href="https://community.spark.io">the community</a>!</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="We're on Maker Shed! Also, Will teaches you to Spark. Also, command line goodness. Also, more." data-related="spark_io">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="http://spark.github.io/staging-blog/images/zach.jpg">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/zsupalla" title="" target="_blank">Zach Supalla</a></strong><br>
+                <span class="muted">Founder, CEO</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2015
+
+        <nav>
+            <a href="https://www.spark.io/">Spark IO</a> &middot;
+            <a href="http://spark.github.io/staging-blog">Blog</a> &middot;
+            <a href="https://store.spark.io/">Product</a> &middot; 
+            
+        </nav>
+
+        <nav class="social">
+            
+            <a href="https://twitter.com/spark_io" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+            
+            
+            <a href="http://facebook.com/sparkdevices" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+            
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss black"></i>
+            </a>
+        </nav>
+        <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/appear.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37038200-4', 'http://spark.github.io/staging-blog');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So many new features! &mdash; Spark Blog</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://spark.github.io/staging-blog/assets/main.css">
+    <link rel="shortcut icon" href="http://spark.github.io/staging-blog/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="http://spark.github.io/staging-blog/images/logo.png"/>
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Spark Blog" />
+    <meta name="title" content="So many new features! ">
+    <link rel="canonical" href="http://spark.github.io/staging-blog/2013/12/21/sprint-two/">
+    
+    
+    <meta property="og:title" content="So many new features! "/>
+    <meta property="og:url" content="http://spark.github.io/staging-blog/2013/12/21/sprint-two/"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/blog-cover.jpg"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/logo.png"/>
+    
+    
+    <meta property="og:description" content="Improvements to the web IDE, lots of documentation, Cloud status site, and firmware RGB LED control."/>
+    <meta name="description" content="Improvements to the web IDE, lots of documentation, Cloud status site, and firmware RGB LED control."/>
+    
+    <meta property="og:site_name" content="Spark Blog">
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <a class="brand" href="https://www.spark.io/">
+                <img src="http://spark.github.io/staging-blog/images/logo.png" alt="Inc">
+            </a>
+            <a href="http://spark.github.io/staging-blog" class="home">Blog</a>
+            <a href="https://store.spark.io/">Product</a>
+            
+        </nav>
+        <nav class="tagline">
+            <span>Wi-Fi for Everything</span>
+            <a href="https://store.spark.io/" class="btn btn-outline">Buy Now</a>
+        </nav>
+    </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="http://spark.github.io/staging-blog/images/blog-cover.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Zachary Crockett" target="_blank">Zachary Crockett</a> &mdash;
+                <time pubdate datetime="2013-21-December" title="December 21, 2013">December 21, 2013</time>
+            </div>
+            <h1 class="title">So many new features!</h1>
+            <h2 class="subtitle">And improving documentation</h2>
+        </header>
+
+        <section>
+            <p>So much to share from this sprint!
+The last two weeks have been a whirlwind.
+First of all, we have a new blog!  Welcome.</p>
+
+<h2>Web IDE</h2>
+
+<p>Three new features: you can now claim, unclaim, and rename Cores through Spark Build.
+Other improvements:</p>
+
+<ul>
+<li>Clearer error messages on Flash/Verify</li>
+<li>Case insensitive usernames</li>
+<li>Flash automatically saves</li>
+<li>Verify and Flash are ten times faster!
+
+<ul>
+<li>We incorporated the winning makefile <a href="https://community.sparkdevices.com/t/feature-bounty-improve-our-makefile/567">feature bounty</a> pull request from <a href="https://community.sparkdevices.com/users/mattande/activity">Matt Anderson</a> into the compile server.</li>
+<li>We don&#39;t recompile your firmware if you haven&#39;t edited the code. First hitting Verify, then hitting Flash now only results in one compile cycle.</li>
+</ul></li>
+</ul>
+
+<h2>Documentation</h2>
+
+<p>We added some great docs to help users better
+understand the colors of the RGB LED on the Core.</p>
+
+<ul>
+<li>On the &quot;Connecting your Core&quot; page,
+there&#39;s a new, highly detailed section called
+<a href="http://docs.spark.io/#/connect/troubleshooting-by-color">Troubleshooting by Color</a>
+that helps you understand exactly what&#39;s happening.</li>
+<li>On the &quot;Getting Started&quot; page, in
+<a href="http://docs.spark.io/#/start/step-3-connect-the-core-to-wi-fi">Step 3</a>,
+we added a click-through animation of the Core&#39;s flashing/breathing LED
+to show all the steps one sees when setting up a Core the first time.</li>
+</ul>
+
+<p>There&#39;s also a
+<a href="http://docs.spark.io/#/examples/local-communication">new annotated example</a>
+showing how to do local communicaton with your Core.
+Simple <a href="https://github.com/spark/local-communication-example">example servers</a>
+are on GitHub in ruby and node.js.</p>
+
+<p>Two big forum posts in case you missed them:</p>
+
+<ul>
+<li><a href="https://community.sparkdevices.com/t/spark-core-troubleshooting-guide-spark-team/696">Troubleshooting Guide</a></li>
+<li><a href="https://community.sparkdevices.com/t/sparkbot-spark-core-roomba/625">SparkBot = Spark Core + Roomba</a></li>
+</ul>
+
+<h2>Firmware Improvements</h2>
+
+<p>You now have control over the RGB LED on the Core!
+To stop breathing cyan and turn it red for half a second:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">RGB.control(true);
+RGB.color(255, 0, 0);
+delay(500);
+RGB.control(false);
+</code></pre></div>
+<p>We&#39;ll add this to the docs soon, but the arguments
+to <code>RGB.color()</code> are red, green, and blue values 0–255.</p>
+
+<p>We also improved the USB Serial Wi-Fi credentials tool;
+it now supports WPA2, WPA, WEP and unsecured networks.</p>
+
+<p>Newly implemented Arduino/Wiring functions:</p>
+
+<ul>
+<li>delayMicroseconds()</li>
+<li>micros()</li>
+<li>shiftIn()</li>
+<li>shiftOut()</li>
+</ul>
+
+<p>Also, you can now easily get your Core ID in firmware with <code>Spark.deviceID()</code>.</p>
+
+<p>We released an open source patch programmer for upgrading the CC3000 firmware.</p>
+
+<p>We improved the stability of over-the-air firmware updates in the face of lossy networks.</p>
+
+<h2>Cloud</h2>
+
+<p>You can check the health status of the Spark Cloud at
+<a href="http://status.spark.io/">status.spark.io</a></p>
+
+<p>We squashed some memory leaks in the Device Service
+so your Core connection is now stable for longer.</p>
+
+<h2>Mobile Apps</h2>
+
+<p>The Android app can now handle unsecured Wi-Fi networks.</p>
+
+<p>Open sourcing the mobile apps is high on the priority list,
+but we&#39;re blocked by licensing issues right now.
+More info in January, but we will likely release
+the Android app first and the iOS app later.</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="So many new features!" data-related="spark_io">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="http://spark.github.io/staging-blog/images/zachary.jpg">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/towynlin" title="" target="_blank">Zachary Crockett</a></strong><br>
+                <span class="muted">Founder, CTO, coder-composer</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2015
+
+        <nav>
+            <a href="https://www.spark.io/">Spark IO</a> &middot;
+            <a href="http://spark.github.io/staging-blog">Blog</a> &middot;
+            <a href="https://store.spark.io/">Product</a> &middot; 
+            
+        </nav>
+
+        <nav class="social">
+            
+            <a href="https://twitter.com/spark_io" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+            
+            
+            <a href="http://facebook.com/sparkdevices" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+            
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss black"></i>
+            </a>
+        </nav>
+        <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/appear.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37038200-4', 'http://spark.github.io/staging-blog');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+$(function(){$(".full img").on("click",function(){$(this).toggleClass("zoom")}),$("video").appear(),$("video").on("appear",function(){this.play()}),$("video").on("disappear",function(){this.pause()})});

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building an open source Nest &mdash; Spark Blog</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://spark.github.io/staging-blog/assets/main.css">
+    <link rel="shortcut icon" href="http://spark.github.io/staging-blog/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="http://spark.github.io/staging-blog/images/logo.png"/>
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Spark Blog" />
+    <meta name="title" content="Building an open source Nest ">
+    <link rel="canonical" href="http://spark.github.io/staging-blog/2014/01/17/open-source-thermostat/">
+    
+    
+    <meta property="og:title" content="Building an open source Nest "/>
+    <meta property="og:url" content="http://spark.github.io/staging-blog/2014/01/17/open-source-thermostat/"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/spark-thermostat2.jpg"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/logo.png"/>
+    
+    
+    <meta property="og:description" content="Inspired by the Google acquisition of Nest for $3.2Bn, the Spark team set out to build an intelligent learning thermostat in less than 24 hours."/>
+    <meta name="description" content="Inspired by the Google acquisition of Nest for $3.2Bn, the Spark team set out to build an intelligent learning thermostat in less than 24 hours."/>
+    
+    <meta property="og:site_name" content="Spark Blog">
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <a class="brand" href="https://www.spark.io/">
+                <img src="http://spark.github.io/staging-blog/images/logo.png" alt="Inc">
+            </a>
+            <a href="http://spark.github.io/staging-blog" class="home">Blog</a>
+            <a href="https://store.spark.io/">Product</a>
+            
+        </nav>
+        <nav class="tagline">
+            <span>Wi-Fi for Everything</span>
+            <a href="https://store.spark.io/" class="btn btn-outline">Buy Now</a>
+        </nav>
+    </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="http://spark.github.io/staging-blog/images/spark-thermostat2.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="The Spark Team" target="_blank">The Spark Team</a> &mdash;
+                <time pubdate datetime="2014-17-January" title="January 17, 2014">January 17, 2014</time>
+            </div>
+            <h1 class="title">Building an open source Nest</h1>
+            <h2 class="subtitle"></h2>
+        </header>
+
+        <section>
+            <p>Earlier this week, Google bought Nest, a connected devices company, for $3.2 billion. This might seem like an ungodly sum for a company that makes thermostats and smoke detectors, but it makes absolute sense. Nest&#39;s products are beautifully designed, their team is overflowing with talent, and they were the first company to figure out what the &quot;Internet of Things&quot; means to consumers and deliver products that people actually <em>want</em>.</p>
+
+<p>But in order to do this, Nest had to spend millions of dollars on R&amp;D to build the basic infrastructure behind the product. The high cost made it impossible for anyone but the extremely well-capitalized to enter the market and create connected things.</p>
+
+<p>Well, we want to change that. At Spark, we&#39;re making it easier to bring connected devices to market with the Spark Core, our Wi-Fi development kit, and the Spark Cloud, our cloud service for connected devices. And to prove it, we built our own approximation of the Nest Learning Thermostat in one day — and we&#39;ve open sourced everything. In this process, we&#39;ve come to respect the incredible technical challenges that Nest has solved while also coming to understand how much the game has changed since they first started.</p>
+
+<p><video width="820" muted="true" loop="true">
+  <source src="http://s3.amazonaws.com/blog.spark.io/finalproduct.mp4" type="video/mp4" />
+  <source src="http://s3.amazonaws.com/blog.spark.io/finalproduct.webm" type="video/webm" />
+  Your browser does not support the video tag.
+</video></p>
+
+<p>Fair warning - we&#39;re not claiming to have matched the Nest thermostat in a day; far from it. But remember — every polished product starts as a rough prototype.
+As Alexis Ohanian
+<a href="https://twitter.com/towynlin/status/421456323138441216">said</a>
+last week, &quot;The first version of everything you love is janky!&quot;</p>
+
+<h2>Hardware</h2>
+
+<p>First, you need hardware. In our case, that means sensors for temperature and humidity, plus a motion sensor to figure out whether you&#39;re home, and relays to control the furnace and the fan. We also need a display so you can see the current temperature, and an enclosure to protect the messy bits.</p>
+
+<p><video width="820"  muted="true" loop="true">
+  <source src="http://s3.amazonaws.com/blog.spark.io/breadboarded.mp4" type="video/mp4" />
+  <source src="http://s3.amazonaws.com/blog.spark.io/breadboarded.webm" type="video/webm" />
+  Your browser does not support the video tag.
+</video></p>
+
+<p>The first thing we did this morning (after whiteboarding our attack plan) was to breadboard the hardware. Breadboarding is a non-permanent way to create an early hardware prototype. We chose a number of components for this product:</p>
+
+<ul>
+<li>The <a href="http://www.spark.io">Spark Core</a> served as our connected brain.</li>
+<li>We display the temperature on a few <a href="http://www.adafruit.com/products/870">Adafruit 8x8 LED matrices</a>. The interface for the displays is a common I2C bus.</li>
+<li>The primary sensor is a <a href="http://www.digikey.com/product-detail/en/HIH6131-021-001/480-3652-6-ND/2704706">Honeywell HumidIcon</a>
+temperature and humidity sensor, which shares the I2C bus with the displays.</li>
+<li>For our MVP, we decided a couple LEDs could represent whether the heat and fan were on. In the end the same pins would be connected to relays instead of the LEDs.</li>
+<li>If you want to save energy when a person&#39;s not home, then you need a way to know when they are home so you can err on the side of comfort again. We added a <a href="http://pewa.panasonic.com/assets/pcsd/catalog/napion-catalog.pdf">Panasonic PIR motion detector</a>.</li>
+</ul>
+
+<p>All in all, it took about an hour to throw together this breadboarded prototype, although we had to order the components a couple of days beforehand. It took another couple of hours to pull together working firmware (see the software section below).</p>
+
+<p><video width="820"  muted="true" loop="true">
+  <source src="http://s3.amazonaws.com/blog.spark.io/cncmilled.mp4" type="video/mp4" />
+  <source src="http://s3.amazonaws.com/blog.spark.io/cncmilled.webm" type="video/webm" />
+  Your browser does not support the video tag.
+</video></p>
+
+<p>The next step is to build an enclosure. The Nest enclosure is glass and aluminum, which are both very pretty but not very handy for prototyping. Instead, we chose acrylic and wood.</p>
+
+<p>First, we CNC milled two wooden rings: one to act as a stationary base, and other to spin freely as a temperature controller (turn the ring clockwise to increase the temperature, and counterclockwise to decrease the temperature).</p>
+
+<p><video width="820"  muted="true" loop="true">
+  <source src="http://s3.amazonaws.com/blog.spark.io/lasercut.mp4" type="video/mp4" />
+  <source src="http://s3.amazonaws.com/blog.spark.io/lasercut.webm" type="video/webm" />
+  Your browser does not support the video tag.
+</video></p>
+
+<p>Next, we laser cut three acrylic disks: one to act as the faceplate (which we later sanded to make it frosty), a second to act as the wall mounting plate, and a third connects the spinning wooden ring to a potentiometer.</p>
+
+<p><video width="820"  muted="true" loop="true">
+  <source src="http://s3.amazonaws.com/blog.spark.io/enclosure.mp4" type="video/mp4" />
+  <source src="http://s3.amazonaws.com/blog.spark.io/enclosure.webm" type="video/webm" />
+  Your browser does not support the video tag.
+</video></p>
+
+<p>Once we completed the enclosure, we converted our breadboarded circuit into a more permanent design by permanently soldering the components.</p>
+
+<p><video width="820" muted="true" loop="true">
+  <source src="http://s3.amazonaws.com/blog.spark.io/mohitsoldering.mp4" type="video/mp4" />
+  <source src="http://s3.amazonaws.com/blog.spark.io/mohitsoldering.webm" type="video/webm" />
+  Your browser does not support the video tag.
+</video></p>
+
+<h2>Software</h2>
+
+<p>Next, you need software. Some of this software runs on the thermostat (often called &#39;firmware&#39;), reading data from the sensors, controlling the relays, and displaying data on the screen. But since this is a connected thermostat, we also want a web interface so that it can be controlled from your smartphone or computer. And since it&#39;s a learning thermostat, we also want to do some machine learning so that we can over time improve your comfort and energy efficiency. This software will run in the cloud.</p>
+
+<p><video width="820" muted="true" loop="true">
+  <source src="http://s3.amazonaws.com/blog.spark.io/workingproto.mp4" type="video/mp4" />
+  <source src="http://s3.amazonaws.com/blog.spark.io/workingproto.webm" type="video/webm" />
+  Your browser does not support the video tag.
+</video></p>
+
+<p>&#39;Firmware&#39; is called <em>firm</em> because it&#39;s traditionally more locked down than software, since it runs on a little chip that usually is never accessed again after the product is delivered to the customer. But adding an internet connection changes things pretty significantly. Firmware is no longer <em>firm</em> when you can update it from anywhere with the click of a button. With a Spark Core, you can flash new code onto your chip using our web IDE.</p>
+
+<p><video width="820" muted="true" loop="true">
+  <source src="http://s3.amazonaws.com/blog.spark.io/joescode.mp4" type="video/mp4" />
+  <source src="http://s3.amazonaws.com/blog.spark.io/joescode.webm" type="video/webm" />
+  Your browser does not support the video tag.
+</video></p>
+
+<p>Our thermostat is complemented with a cloud-based web app that handles all of the complex logic of the thermostat. By doing this in the cloud, we can iterate faster using high-level programming languages and frameworks like Ruby on Rails rather than low-level embedded C.</p>
+
+<p>The Spark Cloud exposes your connected device through a REST API. That means that you can interact with it from any language that can generate HTTP requests, which is basically anything.</p>
+
+<p>The beauty of a connected device is that it can be constantly improving, whether it&#39;s by updating the firmware, updating the cloud software, or by using machine learning to optimize and improve the logic of the device.</p>
+
+<p><video width="820" muted="true" loop="true">
+  <source src="http://s3.amazonaws.com/blog.spark.io/softwareinaction.mp4" type="video/mp4" />
+  <source src="http://s3.amazonaws.com/blog.spark.io/softwareinaction.webm" type="video/webm" />
+  Your browser does not support the video tag.
+</video></p>
+
+<p>Our user interface is a simple web app with a javascript knob that lets you select the desired temperature. The UI also includes a graph of historical temperatures, because data.</p>
+
+<h2>Connectivity</h2>
+
+<p>Once you&#39;ve got your hardware and your software, it&#39;s time to link the two worlds.</p>
+
+<p>Somehow you&#39;ve got to get your thing online, and there are dozens of ways to do this. The simplest method is by adding a Wi-Fi module, so your product can act as a client on your local Wi-Fi network.</p>
+
+<p>The <a href="http://www.spark.io">Spark Core</a> has a Wi-Fi module built in, and because it&#39;s integrated with the micro-controller, &#39;connectivity&#39; is made easy. The Core automatically connects to the Spark Cloud through an encrypted tunnel, so you&#39;ve got a secure connection to a cloud gateway out of the box. No programming the Wi-Fi module, and no finding or building communications protocols.</p>
+
+<h2>Putting it all together</h2>
+
+<p>Once our thermostat was complete, it was time to assemble it all together into the final package and mount it on the wall.</p>
+
+<p><video width="820"  muted="true" loop="true">
+  <source src="http://s3.amazonaws.com/blog.spark.io/underthecovers.mp4" type="video/mp4" />
+  <source src="http://s3.amazonaws.com/blog.spark.io/underthecovers.webm" type="video/webm" />
+  Your browser does not support the video tag.
+</video></p>
+
+<p>All in, we spent about $70 on components to put this together (including $39 for the Spark Core); the wood and acrylic were free. We started working at 10am and finished at 3am, with 3.5 engineers involved (one went to bed early), and the only work we did in advance was order the electronic components.</p>
+
+<h2>Get excited, crazy things are possible.</h2>
+
+<p>We&#39;re not saying that you can build a $3.2 billion company in a day. But we <em>are</em> saying that you can build a $3.2 billion company, and it&#39;s easier now than it&#39;s ever been before.</p>
+
+<p>Connected devices/Internet of Things/M2M/Industrial Internet is a certified <strong>big deal</strong>, and the Nest acquisition proves it. It doesn&#39;t matter whether you&#39;re a software developer with no hardware experience, an embedded designer with no web experience, or a psych major with no experience whatsoever. This is the next frontier, and it&#39;s time to check it out.</p>
+
+<p>Your billion dollar company starts with a million dollar product, and your million dollar product starts with a hundred dollar prototype. So what are you waiting for?</p>
+
+<p>To download the open source files for the Spark thermostat, visit our <a href="http://www.github.com/spark/thermostat">Github page</a>.</p>
+
+<p>Follow us on <a href="http://www.twitter.com/sparkdevices">Twitter</a>, discuss at <a href="https://news.ycombinator.com/item?id=7075626">Hacker News</a>, and get a Spark Core at <a href="http://www.spark.io">spark.io</a>.</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Building an open source Nest" data-related="spark_io">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               
+                <p>Written by <strong><a rel="author" href="https://twitter.com/sparkdevices" title="" target="_blank">The Spark Team</a></strong><br>
+                <span class="muted"></span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2015
+
+        <nav>
+            <a href="https://www.spark.io/">Spark IO</a> &middot;
+            <a href="http://spark.github.io/staging-blog">Blog</a> &middot;
+            <a href="https://store.spark.io/">Product</a> &middot; 
+            
+        </nav>
+
+        <nav class="social">
+            
+            <a href="https://twitter.com/spark_io" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+            
+            
+            <a href="http://facebook.com/sparkdevices" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+            
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss black"></i>
+            </a>
+        </nav>
+        <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/appear.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37038200-4', 'http://spark.github.io/staging-blog');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>

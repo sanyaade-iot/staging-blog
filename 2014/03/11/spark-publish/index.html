@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publish events from your Spark Core &mdash; Spark Blog</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://spark.github.io/staging-blog/assets/main.css">
+    <link rel="shortcut icon" href="http://spark.github.io/staging-blog/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="http://spark.github.io/staging-blog/images/logo.png"/>
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Spark Blog" />
+    <meta name="title" content="Publish events from your Spark Core ">
+    <link rel="canonical" href="http://spark.github.io/staging-blog/2014/03/11/spark-publish/">
+    
+    
+    <meta property="og:title" content="Publish events from your Spark Core "/>
+    <meta property="og:url" content="http://spark.github.io/staging-blog/2014/03/11/spark-publish/"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/blog-cover.jpg"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/logo.png"/>
+    
+    
+    <meta property="og:description" content="Up until now, you could talk to your Spark Core, but it couldn't talk back. To showcase our newest feature, Spark.publish(), I build a connected motion detector."/>
+    <meta name="description" content="Up until now, you could talk to your Spark Core, but it couldn't talk back. To showcase our newest feature, Spark.publish(), I build a connected motion detector."/>
+    
+    <meta property="og:site_name" content="Spark Blog">
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <a class="brand" href="https://www.spark.io/">
+                <img src="http://spark.github.io/staging-blog/images/logo.png" alt="Inc">
+            </a>
+            <a href="http://spark.github.io/staging-blog" class="home">Blog</a>
+            <a href="https://store.spark.io/">Product</a>
+            
+        </nav>
+        <nav class="tagline">
+            <span>Wi-Fi for Everything</span>
+            <a href="https://store.spark.io/" class="btn btn-outline">Buy Now</a>
+        </nav>
+    </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="http://spark.github.io/staging-blog/images/blog-cover.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Zach Supalla" target="_blank">Zach Supalla</a> &mdash;
+                <time pubdate datetime="2014-11-March" title="March 11, 2014">March 11, 2014</time>
+            </div>
+            <h1 class="title">Publish events from your Spark Core</h1>
+            
+        </header>
+
+        <section>
+            <p>Last Friday, we wrapped up Sprint 7 on our team. We released a number of minor bug fixes and improvements, but the one major feature that we delivered is <code>Spark.publish()</code>. Here are some examples:</p>
+
+<script src="https://gist.github.com/cazzo/9495585.js">
+</script>
+
+<p>Up until now, the only way to communicate with the Spark Core was to ask it something. You could remotely call a function using <code>Spark.function()</code>, such as calling the <code>brew()</code> function on a connected coffee-maker to brew a cup of coffee on the fly. Or you could store the temperature in a local variable <code>temp</code>, and then check the temperature with <code>Spark.variable()</code>, and ask for the temperature at any time.</p>
+
+<p>But what if you want the Spark Core to talk to you? Enter <code>Spark.publish()</code>. This feature lets you publish events from the Spark Core, which can be subscribed to through the API. Events are published to a topic, and can be public or private.</p>
+
+<p>To showcase this feature, I&#39;m going to build a Spark-powered motion detector, using an off-the-shelf <a href="http://www.adafruit.com/products/189">PIR sensor</a>. Here&#39;s the hardware:</p>
+
+<div class="full"><img src="http://spark.github.io/staging-blog/images/core-and-pir-live.jpg"></div>
+
+<p>If you&#39;re following along, here&#39;s a Fritzing diagram showing how the components are wired.</p>
+
+<div class="full"><img src="http://spark.github.io/staging-blog/images/core-and-pir-fritzing.png"></div>
+
+<p>My goal is to have this motion detector inform me when it detects motion (natch). Perhaps it could even text me through Twilio? Hello, ad hoc security system.</p>
+
+<p>First, I&#39;ll connect my Spark Core to my Wi-Fi network. I&#39;m going to use the recently released Spark CLI. Once the CLI is installed through <code>npm install -g spark-cli</code>, I can start to play.</p>
+
+<p><img src="http://spark.github.io/staging-blog/images/setup.gif"></p>
+
+<p>Now my Core is connected to the internet and to the Cloud, which I know because its little LED is breathing cyan. Breathing = happy and alive.</p>
+
+<p>Next, it&#39;s time to develop my firmware. Adafruit has some <a href="http://learn.adafruit.com/pir-passive-infrared-proximity-motion-sensor/">great resources</a> for using these sensors.</p>
+
+<p>I threw together a quick 50-line application that will publish to the Cloud every time motion is detected. I chose <code>spark-hq/motion</code> as the topic; our team will use the top-level <code>spark-hq</code> topic for data generated at our office.</p>
+
+<script src="https://gist.github.com/cazzo/9496462.js">
+</script>
+
+<p>Now I can subscribe to the stream of events using <a href="http://en.wikipedia.org/wiki/Server-sent_events">Server-Sent Events</a>. Using <code>curl</code> as an example, I type this in my terminal:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">curl -H &quot;Authorization: Bearer {ACCESS_TOKEN_GOES_HERE}&quot; \
+         https://api.spark.io/v1/events/spark-hq
+</code></pre></div>
+<p>and now I&#39;m listening to a stream of events from <code>spark-hq</code>. Besides my own motion sensor, we&#39;ve got a temperature sensor (69 degrees!), and will be adding more as we put together more prototypes. Since this data is public, anyone can subscribe; go to the <a href="https://www.spark.io/build">Spark Build IDE</a> and get your access token from the &quot;Settings&quot; panel, and you can subscribe to this data too!</p>
+
+<div class="full"><iframe width="720" height="405" src="//www.youtube.com/embed/V_z9AZYUk0w" frameborder="0" allowfullscreen="allowfullscreen">
+</iframe></div>
+
+<p>Now I don&#39;t just want to see a stream of data in my terminal; I want to <em>do</em> something with it. Luckily, Server-Sent Events are part of the HTML5 protocol, and there are interfaces available in many programming languages. Check out <a href="http://www.html5rocks.com/en/tutorials/eventsource/basics/">this tutorial from html5rocks</a> for more information on using Server-Sent Events.</p>
+
+<h3>Coming soon: more features!</h3>
+
+<p>This is just the beginning for <code>Spark.publish()</code>. A few weeks from now we&#39;ll add even more functionality, such as:</p>
+
+<ul>
+<li>Setting up webhooks for events to POST a message back to your server</li>
+<li><code>Spark.subscribe()</code>, so that devices can talk with one another</li>
+</ul>
+
+<p>Let us know what you think and share your <code>Spark.publish()</code> projects on the <a href="https://community.spark.io">Spark Community</a>!</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Publish events from your Spark Core" data-related="spark_io">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="http://spark.github.io/staging-blog/images/zach.jpg">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/zsupalla" title="" target="_blank">Zach Supalla</a></strong><br>
+                <span class="muted">Founder, CEO</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2015
+
+        <nav>
+            <a href="https://www.spark.io/">Spark IO</a> &middot;
+            <a href="http://spark.github.io/staging-blog">Blog</a> &middot;
+            <a href="https://store.spark.io/">Product</a> &middot; 
+            
+        </nav>
+
+        <nav class="social">
+            
+            <a href="https://twitter.com/spark_io" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+            
+            
+            <a href="http://facebook.com/sparkdevices" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+            
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss black"></i>
+            </a>
+        </nav>
+        <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/appear.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37038200-4', 'http://spark.github.io/staging-blog');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controlling the connection &mdash; Spark Blog</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://spark.github.io/staging-blog/assets/main.css">
+    <link rel="shortcut icon" href="http://spark.github.io/staging-blog/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="http://spark.github.io/staging-blog/images/logo.png"/>
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Spark Blog" />
+    <meta name="title" content="Controlling the connection ">
+    <link rel="canonical" href="http://spark.github.io/staging-blog/2014/08/06/control-the-connection/">
+    
+    
+    <meta property="og:title" content="Controlling the connection "/>
+    <meta property="og:url" content="http://spark.github.io/staging-blog/2014/08/06/control-the-connection/"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/blog-cover.jpg"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/logo.png"/>
+    
+    
+    <meta property="og:description" content="Take control of all the things! You can now easily take control of the connection on the Spark Core."/>
+    <meta name="description" content="Take control of all the things! You can now easily take control of the connection on the Spark Core."/>
+    
+    <meta property="og:site_name" content="Spark Blog">
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <a class="brand" href="https://www.spark.io/">
+                <img src="http://spark.github.io/staging-blog/images/logo.png" alt="Inc">
+            </a>
+            <a href="http://spark.github.io/staging-blog" class="home">Blog</a>
+            <a href="https://store.spark.io/">Product</a>
+            
+        </nav>
+        <nav class="tagline">
+            <span>Wi-Fi for Everything</span>
+            <a href="https://store.spark.io/" class="btn btn-outline">Buy Now</a>
+        </nav>
+    </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="http://spark.github.io/staging-blog/images/blog-cover.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Zach Supalla" target="_blank">Zach Supalla</a> &mdash;
+                <time pubdate datetime="2014-06-August" title="August 06, 2014">August 06, 2014</time>
+            </div>
+            <h1 class="title">Controlling the connection</h1>
+            
+        </header>
+
+        <section>
+            <p>One of our goals with the Spark Core and Spark OS was to abstract away the connectivity layer. When you&#39;re running a distributed OS where some of your software runs on the device and some of your software runs in the cloud, you want the connection between the two to &quot;just work&quot;.</p>
+
+<p>However, sometimes you don&#39;t want everything to be automatic; you want to take control of the connection, so you can decide when the device should try to connect and when it shouldn&#39;t. This is particularly helpful when you want your application code to start running immediately as soon as the device is powered, and the connectivity stuff can happen later on.</p>
+
+<p>As of today, the Spark Core has three modes: <code>AUTOMATIC</code>, <code>SEMI_AUTOMATIC</code>, and <code>MANUAL</code>. Let&#39;s go through each of them in turn.</p>
+
+<h2>Automatic mode</h2>
+
+<p>The default mode of the Spark Core is &quot;automatic mode&quot;. This means that the Core will attempt to connect to Wi-Fi automatically. If you don&#39;t explicitly define the connection mode, the Core will be running in automatic mode. This is identical to how the Spark Core has always worked up until now.</p>
+
+<p>Behind the scenes, what&#39;s running on the Spark Core looks something like this:</p>
+<div class="highlight"><pre><code class="cpp language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// First, connect to the internet</span>
+  <span class="n">Spark</span><span class="p">.</span><span class="n">connect</span><span class="p">();</span>
+
+  <span class="c1">// Then run the user-defined setup function</span>
+  <span class="n">setup</span><span class="p">();</span>
+
+  <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Then alternate between processing messages to and from the Cloud...</span>
+    <span class="n">Spark</span><span class="p">.</span><span class="n">process</span><span class="p">();</span>
+
+    <span class="c1">// ...and running the user-defined loop function</span>
+    <span class="n">loop</span><span class="p">();</span>
+
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>But the whole point of the automatic mode is you don&#39;t really need to know that. The Wi-Fi connection just works. So let&#39;s say your code looks like this:</p>
+<div class="highlight"><pre><code class="cpp language-cpp" data-lang="cpp"><span class="c1">// You don&#39;t have to add this, but if you want to be explicit:</span>
+<span class="n">SYSTEM_MODE</span><span class="p">(</span><span class="n">AUTOMATIC</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">pinMode</span><span class="p">(</span><span class="n">D7</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">D7</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">D7</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>What&#39;s actually happening is that first we&#39;re calling <code>Spark.connect()</code>, which will connect the device to the Cloud. Once it&#39;s connected, then your code will run, and your <code>loop()</code> will alternate with <code>Spark.process()</code> so that we can process incoming messages in something that resembles a background process. (Side note: <code>Spark.process()</code> also runs during delays).</p>
+
+<p>Ok, that&#39;s all well and good, but what if I don&#39;t know whether my Spark Core will have an internet connection? I still want my LED to blink. So now we&#39;ve got:</p>
+
+<h2>Semi-automatic mode</h2>
+<div class="highlight"><pre><code class="cpp language-cpp" data-lang="cpp"><span class="c1">// Insert firearm metaphor here</span>
+<span class="n">SYSTEM_MODE</span><span class="p">(</span><span class="n">SEMI_AUTOMATIC</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">pinMode</span><span class="p">(</span><span class="n">D7</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+  <span class="n">attachInterrupt</span><span class="p">(</span><span class="n">D0</span><span class="p">,</span> <span class="n">connect</span><span class="p">,</span> <span class="n">FALLING</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">D7</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">D7</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">connect</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">Spark</span><span class="p">.</span><span class="n">connected</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Spark</span><span class="p">.</span><span class="n">connect</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>In this version of the code, when the Spark Core is plugged in, the LED will immediately start blinking. When a button attached to D0 is depressed (bringing DO to <code>LOW</code>), <code>Spark.connect()</code> will be called. If the Spark Core already has Wi-Fi credentials in memory, it will attempt to connect; otherwise, it will enter listening mode, and wait for your network name and password through the Spark mobile app or over USB.</p>
+
+<p>The only main difference between <code>SEMI_AUTOMATIC</code> mode and <code>AUTOMATIC</code> mode is that <code>Spark.connect()</code> is not called at the beginning of your code; you have to do that yourself. Let&#39;s go deeper down the rabbit hole with:</p>
+
+<h2>Manual mode</h2>
+
+<p>The Spark Core&#39;s manual mode puts everything in your hands. This mode gives you a lot of rope to hang yourself with, so tread cautiously.</p>
+
+<p>Like <code>SEMI_AUTOMATIC</code> mode, in <code>MANUAL</code> mode you need to connect to the Cloud using <code>Spark.connect()</code> yourself. However, in manual mode, the Core will not call <code>Spark.process()</code> automatically; you have to call it yourself. So your code might look like this:</p>
+<div class="highlight"><pre><code class="cpp language-cpp" data-lang="cpp"><span class="n">SYSTEM_MODE</span><span class="p">(</span><span class="n">MANUAL</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">pinMode</span><span class="p">(</span><span class="n">D7</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+  <span class="n">attachInterrupt</span><span class="p">(</span><span class="n">D0</span><span class="p">,</span> <span class="n">connect</span><span class="p">,</span> <span class="n">FALLING</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">D7</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+  <span class="n">Spark</span><span class="p">.</span><span class="n">process</span><span class="p">();</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">D7</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>
+  <span class="n">Spark</span><span class="p">.</span><span class="n">process</span><span class="p">();</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">connect</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">Spark</span><span class="p">.</span><span class="n">connected</span><span class="p">()</span> <span class="o">==</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Spark</span><span class="p">.</span><span class="n">connect</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><em>You must call <code>Spark.process()</code> as frequently as possible to process messages from the Wi-Fi module</em>. If you do not do so, you will encounter erratic behavior, such as:</p>
+
+<ul>
+<li>The Core losing its connection to the Cloud</li>
+<li>The Core breathing cyan when in fact it is not connected</li>
+<li>Long delays when a request is sent to the Core because the Core won&#39;t respond until it&#39;s processed the message</li>
+</ul>
+
+<p>Sounds kinda terrible, right? Except this can be really useful when you&#39;re writing code that is very sensitive to exact timing, and the <code>Spark.process()</code> call might interrupt your sensitive code. By turning on <code>MANUAL</code> mode, you can make sure that <code>Spark.process()</code> is called when you want, and not when the processor is busy with a time-sensitive task.</p>
+
+<p>As Stan Lee once said: with great power comes great responsibility. Go forth and control the connection. Be careful. Good luck.</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Controlling the connection" data-related="spark_io">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="http://spark.github.io/staging-blog/images/zach.jpg">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/zsupalla" title="" target="_blank">Zach Supalla</a></strong><br>
+                <span class="muted">Founder, CEO</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2015
+
+        <nav>
+            <a href="https://www.spark.io/">Spark IO</a> &middot;
+            <a href="http://spark.github.io/staging-blog">Blog</a> &middot;
+            <a href="https://store.spark.io/">Product</a> &middot; 
+            
+        </nav>
+
+        <nav class="social">
+            
+            <a href="https://twitter.com/spark_io" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+            
+            
+            <a href="http://facebook.com/sparkdevices" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+            
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss black"></i>
+            </a>
+        </nav>
+        <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/appear.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37038200-4', 'http://spark.github.io/staging-blog');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>

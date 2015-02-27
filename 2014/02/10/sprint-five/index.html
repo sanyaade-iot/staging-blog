@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple files in the IDE, open source Android app, and more &mdash; Spark Blog</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://spark.github.io/staging-blog/assets/main.css">
+    <link rel="shortcut icon" href="http://spark.github.io/staging-blog/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="http://spark.github.io/staging-blog/images/logo.png"/>
+    <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Spark Blog" />
+    <meta name="title" content="Multiple files in the IDE, open source Android app, and more ">
+    <link rel="canonical" href="http://spark.github.io/staging-blog/2014/02/10/sprint-five/">
+    
+    
+    <meta property="og:title" content="Multiple files in the IDE, open source Android app, and more "/>
+    <meta property="og:url" content="http://spark.github.io/staging-blog/2014/02/10/sprint-five/"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/blog-cover.jpg"/>
+    
+    <meta property="og:image" content="http://spark.github.io/staging-blog/images/logo.png"/>
+    
+    
+    <meta property="og:description" content="Two major releases this week that are leading the way towards more open source awesome."/>
+    <meta name="description" content="Two major releases this week that are leading the way towards more open source awesome."/>
+    
+    <meta property="og:site_name" content="Spark Blog">
+</head>
+<body>
+
+<section class="site-nav">
+    <header>
+        <nav id="navigation">
+            <a class="brand" href="https://www.spark.io/">
+                <img src="http://spark.github.io/staging-blog/images/logo.png" alt="Inc">
+            </a>
+            <a href="http://spark.github.io/staging-blog" class="home">Blog</a>
+            <a href="https://store.spark.io/">Product</a>
+            
+        </nav>
+        <nav class="tagline">
+            <span>Wi-Fi for Everything</span>
+            <a href="https://store.spark.io/" class="btn btn-outline">Buy Now</a>
+        </nav>
+    </header>
+</section>
+
+
+<div class="article-cover">
+    <div>
+        <img src="http://spark.github.io/staging-blog/images/blog-cover.jpg" class="image">
+    </div>
+</div>
+
+<article>
+
+    <div class="container">
+        <header>
+            <div class="meta">
+                By <address><a rel="author" href="" title="Zach Supalla" target="_blank">Zach Supalla</a> &mdash;
+                <time pubdate datetime="2014-10-February" title="February 10, 2014">February 10, 2014</time>
+            </div>
+            <h1 class="title">Multiple files in the IDE, open source Android app, and more</h1>
+            
+        </header>
+
+        <section>
+            <p>As promised last time around, a major focus of Sprint 5 was to deliver &quot;multiple files&quot; in the web IDE. Consider it delivered!</p>
+
+<h3>Multiple files in the Spark IDE</h3>
+
+<div class="full zoomable"><img src="http://spark.github.io/staging-blog/images/multi-files.png"></div>
+
+<p>See that little + icon at the top of the screen? Give that the old clickety-click and you&#39;ll find yourself with multiple files.</p>
+
+<p>The Spark Build IDE automatically adds two files to your project: a header file (.h) and a C++ file (.cpp). The IDE also automatically adds a <code>#include</code> statement at the top of your main application that brings in the header file.</p>
+
+<p>This means that, as members of the community begin to create libraries for various components and accessories like sensors, LCD displays, etc., you can add them as separate files to keep your code clean. This can also help you keep yourself organized as your applications become more complex.</p>
+
+<p>This is the first step on a longer journey to make it easy to import and share libraries with the rest of the community. Most of our team is web guys, and we love tools like Node.js&#39;s <code>npm</code> and Ruby&#39;s <code>gem</code> that make it extremely easy to share libraries. This makes it possible for developers and engineers to stand on each others&#39; shoulders. We hope to deliver the same simple solution through Spark&#39;s in-process library system.</p>
+
+<h3>Android app: now open source!</h3>
+
+<div class="full zoomable"><img src="http://spark.github.io/staging-blog/images/android-app.png"></div>
+
+<p>The Spark Android app is now open source, ready to act as a template for your own mobile apps for your Spark-powered products.</p>
+
+<p><a href="https://github.com/spark/android-app">Spark Android app on Github</a></p>
+
+<p>We haven&#39;t yet been able to secure permission to re-distribute TI&#39;s Smart Config libraries, so they have been removed from the open source project, along with Gotham, the fonts we used to make it all pretty. If you&#39;re building the Android app yourself, please follow the README to re-introduce these assets and make sure that the project will be able to build successfully.</p>
+
+<p>Don&#39;t worry, iOS fans - the open source iOS app will be coming soon, too!</p>
+
+<h3>Next time: more documentation, a command line interface, Spark.publish(), and more!</h3>
+
+<p>We&#39;ve got a lot on the docket for Sprint 6, including a number of features that we&#39;ve been excited about for quite some time. Here&#39;s what to expect over the next few weeks:</p>
+
+<ul>
+<li>We&#39;ll be making lots of improvements and fixes to our documentation, including creating an oft-requested &quot;getting started&quot; screencast</li>
+<li>We&#39;ve got a Command Line Interface (CLI) in the works that will dramatically simplify the process of interacting with your Spark Core locally and through the Cloud.</li>
+<li>Perhaps our most-requested feature: <code>Spark.publish()</code>, a mechanism to publish data from the Spark Core to your favorite web service (formerly known as <code>Spark.event()</code>)</li>
+<li>We&#39;re start on a mechanism for sharing community-generated libraries within the IDE</li>
+<li>Debugging CFOD, the &quot;Cyan Flash of Death&quot; - we&#39;re getting closer to squashing it!</li>
+<li>Various IDE bug fixes</li>
+<li>Various Core firmware bug fixes (mostly relating to connectivity)</li>
+</ul>
+
+<p>Enjoy the improvements, and if you have any feedback, please share it in <a href="https://community.spark.io">the community</a>!</p>
+
+            
+<div class="social">
+    <div>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Multiple files in the IDE, open source Android app, and more" data-related="spark_io">Tweet</a>
+    </div>
+    
+    
+    <div>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+    <div>
+        <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+    </div>
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+               <img src="http://spark.github.io/staging-blog/images/zach.jpg">
+                <p>Written by <strong><a rel="author" href="https://twitter.com/zsupalla" title="" target="_blank">Zach Supalla</a></strong><br>
+                <span class="muted">Founder, CEO</span>
+                </p>
+            </address>
+
+        </footer>
+
+        
+    </div>
+</article>
+
+
+<footer class="site-footer">
+    <div class="container">
+        &copy; 2015
+
+        <nav>
+            <a href="https://www.spark.io/">Spark IO</a> &middot;
+            <a href="http://spark.github.io/staging-blog">Blog</a> &middot;
+            <a href="https://store.spark.io/">Product</a> &middot; 
+            
+        </nav>
+
+        <nav class="social">
+            
+            <a href="https://twitter.com/spark_io" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a>
+            
+            
+            <a href="http://facebook.com/sparkdevices" title="Follow on Facebook" target="_blank"><i class="icon icon-facebook black"></i></a>
+            
+            <a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss black"></i>
+            </a>
+        </nav>
+        <p>Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p>
+    </div>
+</footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/appear.js"></script>
+<script src="http://spark.github.io/staging-blog/assets/main.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>
+    (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.src = '//hnbutton.appspot.com/static/hn.min.js';
+        s.parentNode.insertBefore(g, s);
+    }(document, 'script'));
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37038200-4', 'http://spark.github.io/staging-blog');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>
